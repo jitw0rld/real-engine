@@ -28,6 +28,12 @@ fn main() {
         // Frame buffer
         let next_frame_time = std::time::Instant::now() +
             std::time::Duration::from_nanos(16_666_667);
+
+        // Initialize vertex shader
+        let vertex_shader_src = include_str!("shaders/vertex.glsl");
+
+        // Initialize fragment shader
+        let fragment_shader_src = include_str!("shaders/fragment.glsl");
         
         // Event loop
         *control_flow = glutin::event_loop::ControlFlow::WaitUntil(next_frame_time);
