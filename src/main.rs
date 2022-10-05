@@ -17,6 +17,14 @@ fn main() {
     // Create display
     let display = glium::Display::new(wb, cb, &event_loop).unwrap();
 
+    // Define vertex structure
+    struct Vertex {
+        position: [f32; 2],
+    }
+
+    // Implement vertex structure
+    implement_vertex!(Vertex, position);
+
     // Create vertex buffer/event loop
     event_loop.run(move |ev, _, control_flow| {
 
