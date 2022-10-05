@@ -39,11 +39,6 @@ fn main() {
     // Create vertex buffer/event loop
     event_loop.run(move |ev, _, control_flow| {
 
-        // Draw frame
-        let mut target = display.draw();
-        target.clear_color(0.0, 0.0, 1.0, 1.0);
-        target.finish().unwrap();
-
         // Frame buffer
         let next_frame_time = std::time::Instant::now() +
             std::time::Duration::from_nanos(16_666_667);
@@ -60,5 +55,11 @@ fn main() {
             },
             _ => (),
         }
+
+        // Draw frame
+        let mut target = display.draw();
+        target.clear_color(0.0, 0.0, 1.0, 1.0);
+        target.finish().unwrap();
+
     });
 }
