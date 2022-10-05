@@ -33,10 +33,10 @@ fn main() {
     // Initialize fragment shader
     let fragment_shader_src = include_str!("shaders/fragment.glsl");
 
-    // Define program
+    // Define rendering program
     let program = glium::Program::from_source(&display, vertex_shader_src, fragment_shader_src, None).unwrap();
 
-    // Create vertex buffer/event loop
+    // Create frame buffer/event loop
     event_loop.run(move |ev, _, control_flow| {
 
         // Frame buffer
