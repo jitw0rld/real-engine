@@ -13,7 +13,7 @@ fn main() {
         .with_inner_size(glium::glutin::dpi::LogicalSize::new(1024.0, 768.0));
 
     // Create OpenGL contexts
-    let cb = glium::glutin::ContextBuilder::new();
+    let cb = glium::glutin::ContextBuilder::new().with_depth_buffer(24);
 
     // Create display
     let display = glium::Display::new(wb, cb, &event_loop).unwrap();
