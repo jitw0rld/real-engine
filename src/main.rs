@@ -1,5 +1,6 @@
 #[macro_use]
 extern crate glium;
+mod world;
 
 fn main() {
     use glium::{glutin, Surface};
@@ -18,20 +19,16 @@ fn main() {
     // Create display
     let display = glium::Display::new(wb, cb, &event_loop).unwrap();
 
-    // Define vertex structure
-    #[derive(Copy, Clone)]
-    struct Vertex {
-        position: [f32; 2],
-    }
-
-    // Implement vertex structure
-    implement_vertex!(Vertex, position);
-
     // Initialize vertex shader
     let vertex_shader_src = include_str!("shaders/vertex.glsl");
 
     // Initialize fragment shader
     let fragment_shader_src = include_str!("shaders/fragment.glsl");
+
+    // Load world data
+    let positions = glium::VertexBuffer::new(&display, &world::VERTICES).unwrap();
+    let normals = glium::VertexBuffer::new(&display, &world::NORMALS).unwrap();
+    let indices = glium::IndexBuffer::new(&display, glium::index::PrimitiveType::TrianglesList, &world::INDICES).unwrap();
 
     // Define rendering program
     let program = glium::Program::from_source(&display, vertex_shader_src, fragment_shader_src, None).unwrap();
@@ -53,7 +50,12 @@ fn main() {
                 },
                 _ => return,
             },
-            _ => (),
+            glutin::event::Event::NewEvents(cause) => match cause {
+                glutin::event::StartCause::ResumeTimeReached { .. } => (),
+                glutin::event::StartCause::Init => (),
+                _ => return,
+            },
+            _ => return,
         }
 
         // Create frame in buffer
@@ -93,7 +95,7 @@ fn main() {
         // Define frame rendering parameters
         let params = glium::DrawParameters {
             depth: glium::Depth {
-                test: glium::DepthTest::IfLess,
+                test: glium::draw_parameters::DepthTest::IfLess,
                 write: true,
                 ..Default::default()
             },
